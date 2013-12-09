@@ -196,14 +196,15 @@ describe Issue do
       end
     end
 
-    # context 'when status is ready_for_open?' do
-    #   it 'returns IssueStatus.open' do
+    # context 'when status is done' do
+    #   it 'returns IssueStatus.done' do
     #     issue.stub(:ready_for_open?).and_return true
-    #     issue.updated_status.should == IssueStatus.open
+    #     issue.stub(:is_gift?).and_return true
+    #     issue.updated_status.should == IssueStatus.done
     #   end
     # end
 
-    context 'when status is ready_for_open?' do
+    context 'when status is ready_for_canceled?' do
       it 'returns IssueStatus.canceled' do
         issue.stub(:ready_for_canceled?).and_return true
         issue.updated_status.should == IssueStatus.canceled
@@ -291,6 +292,29 @@ describe Issue do
       fake_project.should_receive(:send_later).with("update_last_item")
       issue.stub(:project).and_return(fake_project)
       issue.update_last_item_stamp
+    end
+  end
+
+  # describe '#closed?' do
+  #   context 'when status is closed' do
+  #     issue.status = IssueStatus.done
+  #     it 'returns true' do
+  #       issue.closed?.should be_true
+  #     end
+  #   end
+  # end
+
+  describe '#reopened?' do
+    context 'when and existing issue status_id changes' do
+      it 'returns true' do
+        p issue.reopened?
+      end
+    end
+  end
+
+  describe '#duplicates' do
+    it 'returns an array of duplicate issues' do
+      p issue.duplicates
     end
   end
 
